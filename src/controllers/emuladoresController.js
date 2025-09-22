@@ -44,6 +44,13 @@ const createEmulador = (req, res) => {
         });
     }
 
+    if (jogos.length < 10) {
+        return res.status(400).json({
+            success: false,
+            message: `O emulador deve suportar no mínimo 10 jogos!`
+        });
+    }
+
     //Criar novo emulador
     const novoEmulador = {
         id: emuladores.length + 1,
