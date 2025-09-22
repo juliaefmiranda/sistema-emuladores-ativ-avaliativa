@@ -30,4 +30,86 @@ const getEmuladoresById = (req, res) => {
     });
 }
 
-export { getAllEmuladores, getEmuladoresById }
+const createEmulador = (req, res) => {
+    const { nome, console, versao, plataforma, jogos, desenvolvedor, opensource, status } = req.body;
+
+    //Regras de negócio
+
+    /*if (status != Desenvolvimento, Beta, Estavel, Abandonado){
+        return res.status(400).json({
+            success: false,
+            message: `Status inválido!`
+        });
+    }*/
+
+    //Criar novo emulador
+    const novoEmulador = {
+        id: emuladores.length + 1,
+        nome,
+        console,
+        versao,
+        plataforma,
+        jogos,
+        desenvolvedor,
+        opensource,
+        status,
+    }
+
+    emuladores.push(novoEmulador);
+
+    res.status(200).json({
+        success: true,
+        message: `Novo Emulador adicionado com sucesso!`
+    });
+}
+
+const updateEmulador =  (req, res) => {
+    const id = parseInt(req.params.id);
+    const { nome, console, versao, plataforma, jogos, desenvolvedor, opensource, status } = req.body;
+
+    if (isNaN(id)) {
+        return res.status(400).json({
+            success: false,
+            message: `O id deve ser um número válido!`
+        });
+    }
+
+    const emuladorExiste = emuladores.find(e => e.id === id);
+
+    if (!emuladorExiste) {
+        return res.status(404).json({
+            success: false,
+            message: `Emulador não existe!`
+        });
+    }
+
+    //Regras de negócio
+
+    const emuladorAtualizados = emuladores.map( emulador => emulador.id === id 
+        ? {
+            ...emulador,
+            ...(nome && { nome }),
+            ...(console && { console }),
+            ...(versao && { versao }),
+            ...(plataforma && { plataforma }),
+            ...(jogos && { jogos }),
+            ...(desenvolvedor && { desenvolvedor }),
+            ...(opensource && { opensource }),
+            ...(status && { status }),
+        }
+        : emulador
+    );
+
+    emuladores.splice(0, emuladores.length, ...emuladorAtualizados);
+
+    const emuladorAtualizado = emuladores.find(e => e.id === id);
+
+    res.status(200).json({
+        success: true,
+        message: `Emulador atualizado com sucesso!`,
+        emulador: emuladorAtualizado
+    });
+
+}
+
+export { getAllEmuladores, getEmuladoresById, createEmulador, updateEmulador }

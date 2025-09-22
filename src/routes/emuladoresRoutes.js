@@ -1,8 +1,10 @@
 import express from "express";
-import { getAllEmuladores, getEmuladoresById } from "../controllers/emuladoresController.js";
+import { createEmulador, getAllEmuladores, getEmuladoresById, updateEmulador } from "../controllers/emuladoresController.js";
 
 const router = express.Router();
 router.get("/", getAllEmuladores);
 router.get("/:id", getEmuladoresById);
+router.post("/", createEmulador);
+router.put("/:id", updateEmulador);
 
 export default router;
