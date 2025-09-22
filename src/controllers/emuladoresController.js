@@ -33,14 +33,16 @@ const getEmuladoresById = (req, res) => {
 const createEmulador = (req, res) => {
     const { nome, console, versao, plataforma, jogos, desenvolvedor, opensource, status } = req.body;
 
+    const statusEmulador = [ "Desenvolvimento","Beta", "Estável", "Abandonado"]
+
     //Regras de negócio
 
-    /*if (status != Desenvolvimento, Beta, Estavel, Abandonado){
+    if(!statusEmulador.includes(status)) {
         return res.status(400).json({
             success: false,
-            message: `Status inválido!`
+            message: `Status inválido! Status permitidos: ${statusEmulador.join(", ")}.`
         });
-    }*/
+    }
 
     //Criar novo emulador
     const novoEmulador = {
