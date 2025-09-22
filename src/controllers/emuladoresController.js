@@ -5,7 +5,21 @@ const getAllEmuladores = (req, res) => {
     let resultado = emuladores; 
 
     //Filtros
+    const { console, plataforma, status, opensource } = req.query;
 
+    if (console) {
+        resultado = resultado.filter(e => e.console.toLowerCase().includes(console.toLowerCase()));
+    }
+    if (plataforma) {
+        resultado = resultado.filter(e => e.plataforma.toLowerCase().includes(plataforma.toLowerCase()));
+    }
+    if (status) {
+        resultado = resultado.filter(e => e.status.toLowerCase().includes(status.toLowerCase()));
+    }
+    if (opensource) {
+        const isOpensource = opensource.toLowerCase() === 'true';
+        resultado = resultado.filter(e => e.opensource === isOpensource);
+    }
     res.status(200).json({
         total: resultado.length,
         data: resultado

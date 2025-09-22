@@ -216,8 +216,9 @@ const emuladores = [
         "Tokyo Mirage Sessions ♯FE"
       ],
       desenvolvedor: "Exzap, Petergov",
-      opensource: true,
+      opensource: "sim",
       status: "Estável"
+
     }
   ];
 
