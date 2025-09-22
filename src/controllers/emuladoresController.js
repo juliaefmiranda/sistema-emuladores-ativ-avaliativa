@@ -112,4 +112,37 @@ const updateEmulador =  (req, res) => {
 
 }
 
-export { getAllEmuladores, getEmuladoresById, createEmulador, updateEmulador }
+const deleteEmulador = (req, res) => {
+    const { id } = req.params
+
+    if (isNaN(id)) {
+        return res.status(400).json({
+            success: false,
+            message: `O id deve ser válido!`
+        });
+    }
+
+    const idParaApagar = parseInt(id);
+
+    const emuladorParaRemover = emuladores.find(e => e.id === idParaApagar);
+    console.log(emuladorParaRemover)
+
+    if (!emuladorParaRemover) {
+        return res.status(404).json({
+            success: false,
+            message: `O emulador com esse id não existe!`
+        });
+    }
+
+    const emuladorFiltrado = emuladores.filter(e => e.id !== id);
+    console.log(emuladorFiltrado)
+
+    emuladores.splice(0, emuladores.length, ...emuladorFiltrado);
+
+    return res.status(200).json({
+        success: true,
+        message: `O emulador com o id ${id} foi removido com sucesso!`
+    })
+}
+
+export { getAllEmuladores, getEmuladoresById, createEmulador, updateEmulador, deleteEmulador }
